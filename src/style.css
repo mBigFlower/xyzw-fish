@@ -69,6 +69,10 @@ button:focus-visible {
   height: 100vh;
 }
 
+.status-result .arco-descriptions-item-label {
+  color: red !important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -34,8 +34,8 @@
     </a-row>
     <a-row :gutter="16">
       <a-col :span="12">
-        <a-form-item field="goldProp" tooltip="已兑换金道具" label="已兑换金道具">
-          <a-input-number v-model="form.goldProp" placeholder="已兑换金道具" />
+        <a-form-item field="goldProp" tooltip="已获得金道具" label="已获得金道具">
+          <a-input-number v-model="form.goldProp" placeholder="已获得金道具" />
         </a-form-item>
       </a-col>
       <a-col :span="12">

@@ -507,9 +507,9 @@ export function calc(nowInfo = NowInfo) {
   pushInfoResult('已获得普通道具', sum)
   pushInfoResult('剩余可获得普通道具', (1050 - sum))
   pushInfoResult('已获得金道具', nowInfo.goldProp)
-  pushInfoResult('距离拿金鱼还差金道具', (250 - nowInfo.goldProp))
-  pushInfoResult('根据25%的转换率，还需要普通道具', (250 - nowInfo.goldProp) * 4)
 
+  pushStatusResult('距离拿金鱼还差金道具', (250 - nowInfo.goldProp))
+  pushStatusResult('根据25%的转换率，还需要普通道具', (250 - nowInfo.goldProp) * 4)
   if (!nowYanGuanInfo.isOver) pushStatusResult('盐罐任务尚未完成，还可以获得', nowYanGuanInfo.infoLeft.length)
   if (nowInfo.normalProp) pushStatusResult('未兑换的普通道具', nowInfo.normalProp)
   pushStatusResult('故还差普通道具', (250 - nowInfo.goldProp) * 4 - nowYanGuanInfo.infoLeft.length - nowInfo.normalProp)
