@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import FishCheck from './components/FishCheck.vue'
 </script>
 
 <template>
-  <HelloWorld/>
+  <FishCheck/>
 </template>
 
 <style scoped>
