@@ -461,14 +461,20 @@ function checkJinZhuanInfo(info) {
 
 function checkZhaoMuInfo(info) {
   if (info.isOver) return console.log('招募已达到最高等级')
-  console.log(`【招募】还可以做${info.infoLeft.length}档，剩余档位信息：`)
-  console.table(info.infoLeft)
+  console.table(`【招募】还可以做${info.infoLeft.length}档，剩余档位信息：`, info.infoLeft)
+  pushStatusResult(`【招募】还可以做${info.infoLeft.length}档，剩余档位信息：`)
+  info.infoLeft.forEach(info => {
+    pushStatusResult(info.level, info.prop)
+  })
 }
 
 function checkBaoXiangInfo(info) {
   if (info.isOver) return console.log('宝箱已达到最高等级')
-  console.log(`【宝箱】还可以做${info.infoLeft.length}档，剩余档位信息：`)
-  console.table(info.infoLeft)
+  console.table(`【宝箱】还可以做${info.infoLeft.length}档，剩余档位信息：`, info.infoLeft)
+  pushStatusResult(`【宝箱】还可以做${info.infoLeft.length}档，剩余档位信息：`)
+  info.infoLeft.forEach(info => {
+    pushStatusResult(info.level, info.prop)
+  })
 }
 
 function pushInfoResult(label, value) {
@@ -490,6 +496,7 @@ const infoResult = []
 const statusResult = []
 export function calc(nowInfo = NowInfo) {
   infoResult.length = 0
+  statusResult.length = 0
   const nowBuHuoInfo = getNormalInfo(nowInfo.buHuo, BuHuoInfo)
   const nowYanGuanInfo = getNormalInfo(nowInfo.yanGuan, YanGuanInfo)
   const nowJinZhuanInfo = getNormalInfo(nowInfo.jinZhuan, JinZhuanInfo)
@@ -515,10 +522,11 @@ export function calc(nowInfo = NowInfo) {
   pushStatusResult('故还差普通道具', (250 - nowInfo.goldProp) * 4 - nowYanGuanInfo.infoLeft.length - nowInfo.normalProp)
   checkBuHuoInfo(nowBuHuoInfo)
   checkJinZhuanInfo(nowJinZhuanInfo)
-}
-export function getInfoResult(){
-  return infoResult
-}
-export function getStatusResult(){
-  return statusResult
+  checkBaoXiangInfo(nowBaoXiangInfo)
+  checkZhaoMuInfo(nowZhaoMuInfo)
+
+  return {
+    infoResult,
+    statusResult
+  }
 }
