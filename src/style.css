@@ -69,7 +69,17 @@ button:focus-visible {
   height: 100vh;
 }
 
-.status-result .arco-descriptions-item-label {
+.status-result .arco-descriptions-row:nth-child(1) .arco-descriptions-item-label {
+  color: rgb(255, 98, 98) !important;
+}
+.status-result .arco-descriptions-row:nth-child(1) .arco-descriptions-item-value {
+  color: rgb(255, 98, 98) !important;
+}
+.status-result .arco-descriptions-row:nth-child(5) .arco-descriptions-item-label {
+  color: red !important;
+}
+
+.status-result .arco-descriptions-row:nth-child(5) .arco-descriptions-item-value {
   color: red !important;
 }
 
