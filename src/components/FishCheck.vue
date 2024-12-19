@@ -34,12 +34,12 @@
     </a-row>
     <a-row :gutter="16">
       <a-col :span="12">
-        <a-form-item field="goldProp" tooltip="已获得金道具" label="已获得金道具">
+        <a-form-item field="goldProp" tooltip="已获得金道具" label="已获得金道具" required>
           <a-input-number v-model="form.goldProp" placeholder="已获得金道具" />
         </a-form-item>
       </a-col>
       <a-col :span="12">
-        <a-form-item field="normalProp" tooltip="剩余普通道具" label="剩余普通道具">
+        <a-form-item field="normalProp" tooltip="剩余普通道具" label="剩余普通道具" required>
           <a-input-number v-model="form.normalProp" placeholder="剩余普通道具" />
         </a-form-item>
       </a-col>
@@ -54,7 +54,7 @@
     <template #title>
       计算结果
     </template>
-    <div style="margin-top: 20px;overflow: auto;max-height:600px">
+    <div class="result-layout">
       <a-descriptions :data="infoResult" :column="1" bordered />
       <a-descriptions class="status-result" :data="statusResult" :column="1" bordered />
     </div>
@@ -64,6 +64,8 @@
 <script setup>
 import { ref } from 'vue'
 import { calc, getInfoResult, getStatusResult } from '../xyzw_fish.js'
+
+
 //#region 信息填写
 const form = ref({
   jinZhuan: 420837,
@@ -74,6 +76,22 @@ const form = ref({
   goldProp: 243,
   normalProp: 1
 })
+
+function initInfos() {
+  // 创建一个 URL 对象
+  const urlObj = new URL(location.href);
+  // 使用 URLSearchParams 获取查询参数
+  const params = new URLSearchParams(urlObj.search);
+  // 创建一个对象来存储参数和值
+  const result = {};
+  // 遍历所有参数并存储到结果对象中
+  params.forEach((value, key) => {
+    result[key] = +value;
+  });
+  Object.assign(form.value, result)
+}
+
+initInfos();
 
 function onCalcClick() {
   visible.value = true
@@ -96,7 +114,6 @@ function onResetClick() {
 }
 //#endregion
 
-
 //#region 计算结果
 const visible = ref(false)
 const infoResult = ref([])
@@ -115,7 +132,16 @@ function handleCancel() {
 .read-the-docs {
   color: #888;
 }
+
+
+.result-layout {
+  display: flex;
+  margin-top: 20px;
+  overflow: auto;
+  max-height: 600px
+}
+
 .status-result {
-  margin-top: 20px
+  margin-left: 20px
 }
 </style>
