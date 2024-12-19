@@ -62,12 +62,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { calc, getInfoResult, getStatusResult } from '../xyzw_fish.js'
+import { ref, reactive } from 'vue'
+import { calc } from '../xyzw_fish.js'
 
 
 //#region 信息填写
-const form = ref({
+const baseParams = {
   jinZhuan: 420837,
   buHuo: 1600,
   zhaoMu: 4000,
@@ -75,7 +75,8 @@ const form = ref({
   baoXiang: 100000,
   goldProp: 243,
   normalProp: 1
-})
+}
+const form = reactive({...baseParams})
 
 function initInfos() {
   // 创建一个 URL 对象
@@ -88,29 +89,22 @@ function initInfos() {
   params.forEach((value, key) => {
     result[key] = +value;
   });
-  Object.assign(form.value, result)
+  Object.assign(form, result)
 }
 
 initInfos();
 
 function onCalcClick() {
   visible.value = true
-  const res = calc(form.value)
-  console.log('onCalcClick', res)
-  infoResult.value = getInfoResult()
-  statusResult.value = getStatusResult()
+  const res = calc(form)
+  console.log('onCalcClick', res);
+  
+  infoResult.value = [...res.infoResult]
+  statusResult.value = [...res.statusResult]
 }
 
 function onResetClick() {
-  form.value = {
-    jinZhuan: 0,
-    buHuo: 0,
-    zhaoMu: 4000,
-    yanGuan: 60,
-    baoXiang: 100000,
-    goldProp: 0,
-    normalProp: 0
-  }
+  Object.assign(form, baseParams)
 }
 //#endregion
 
@@ -143,5 +137,16 @@ function handleCancel() {
 
 .status-result {
   margin-left: 20px
+}
+
+@media (max-width: 768px) {
+  .result-layout {
+    flex-direction: column;
+  }
+
+  .status-result {
+    margin-left: 0;
+    margin-top: 20px;
+  }
 }
 </style>
