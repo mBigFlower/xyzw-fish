@@ -78,9 +78,14 @@ button:focus-visible {
 .status-result .arco-descriptions-row:nth-child(5) .arco-descriptions-item-label {
   color: red !important;
 }
-
 .status-result .arco-descriptions-row:nth-child(5) .arco-descriptions-item-value {
   color: red !important;
+}
+.status-result .arco-descriptions-row:not(:nth-child(-n+5)) .arco-descriptions-item-label {
+  color: rgb(144, 86, 0) !important;
+}
+.status-result .arco-descriptions-row:not(:nth-child(-n+5)) .arco-descriptions-item-value {
+  color: rgb(144, 86, 0) !important;
 }
 
 @media (prefers-color-scheme: light) {
