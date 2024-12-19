@@ -2,7 +2,7 @@
   <h1>本站对拿鱼结果概不负责</h1>
   <h1>仅供参考，请谨慎使用</h1>
   <div>（请根据实际情况填写下列内容，点击计算查看结果）</div>
-  <a-form :model="form" layout="vertical" style="margin-top: 100px">
+  <a-form ref="formRef" :model="form" layout="vertical" style="margin-top: 100px">
     <a-row :gutter="16">
       <a-col :span="8">
         <a-form-item field="zhaoMu" tooltip="已使用招募" label="已使用招募">
@@ -65,6 +65,7 @@
 import { ref, reactive } from 'vue'
 import { calc } from '../xyzw_fish.js'
 
+const formRef = ref(null)
 
 //#region 信息填写
 const baseParams = {
@@ -73,10 +74,10 @@ const baseParams = {
   zhaoMu: 4000,
   yanGuan: 21,
   baoXiang: 100000,
-  goldProp: 243,
-  normalProp: 1
+  goldProp: undefined,
+  normalProp: undefined
 }
-const form = reactive({...baseParams})
+const form = reactive({ ...baseParams })
 
 function initInfos() {
   // 创建一个 URL 对象
@@ -95,10 +96,12 @@ function initInfos() {
 initInfos();
 
 function onCalcClick() {
+  formRef.value.validate();
+  if (!form.goldProp || !form.normalProp) return;
   visible.value = true
   const res = calc(form)
   console.log('onCalcClick', res);
-  
+
   infoResult.value = [...res.infoResult]
   statusResult.value = [...res.statusResult]
 }
