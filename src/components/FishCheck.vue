@@ -5,29 +5,29 @@
   <a-form ref="formRef" :model="form" layout="vertical" style="margin-top: 100px">
     <a-row :gutter="16">
       <a-col :span="8">
-        <a-form-item field="zhaoMu" tooltip="已使用招募" label="已使用招募">
+        <a-form-item field="zhaoMu" tooltip="已使用招募" label="已使用招募" required>
           <a-input-number v-model="form.zhaoMu" placeholder="已使用招募" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
-        <a-form-item field="yanGuan" tooltip="已收取盐罐" label="已收取盐罐">
+        <a-form-item field="yanGuan" tooltip="已收取盐罐" label="已收取盐罐" required>
           <a-input-number v-model="form.yanGuan" placeholder="已收取盐罐" />
         </a-form-item>
       </a-col>
       <a-col :span="8">
-        <a-form-item field="baoXiang" tooltip="已开宝箱分" label="已开宝箱分">
+        <a-form-item field="baoXiang" tooltip="已开宝箱分" label="已开宝箱分" required>
           <a-input-number v-model="form.baoXiang" placeholder="已开宝箱分" />
         </a-form-item>
       </a-col>
     </a-row>
     <a-row :gutter="16">
       <a-col :span="12">
-        <a-form-item field="jinZhuan" tooltip="已使用金砖" label="已使用金砖">
+        <a-form-item field="jinZhuan" tooltip="已使用金砖" label="已使用金砖" required>
           <a-input-number v-model="form.jinZhuan" placeholder="已使用金砖" />
         </a-form-item>
       </a-col>
       <a-col :span="12">
-        <a-form-item field="buHuo" tooltip="已使用金鱼竿" label="已使用金鱼竿">
+        <a-form-item field="buHuo" tooltip="已使用金鱼竿" label="已使用金鱼竿" required>
           <a-input-number v-model="form.buHuo" placeholder="已使用金鱼竿" />
         </a-form-item>
       </a-col>
@@ -78,7 +78,7 @@ const baseParams = {
   jinZhuan: 420837,
   buHuo: 1600,
   zhaoMu: 4000,
-  yanGuan: 21,
+  yanGuan: 60,
   baoXiang: 100000,
   goldProp: undefined,
   normalProp: 0
@@ -97,7 +97,7 @@ function initInfos() {
   const result = {};
   // 遍历所有参数并存储到结果对象中
   params.forEach((value, key) => {
-    result[key] = +value;
+    result[key] = +value || undefined;
   });
   Object.assign(form, result)
 }
@@ -106,9 +106,13 @@ initInfos();
 
 function onCalcClick() {
   formRef.value.validate();
-  if (form.goldProp === undefined || form.normalProp === undefined) return;
+  for (let key in form) {
+    if (form[key] === undefined) {
+      return;
+    }
+  }
   const res = calc(form)
-  console.log('onCalcClick', res);
+  console.log('onCalcClick', form);
 
   infoResult.value = [...res.infoResult]
   statusResult.value = [...res.statusResult]
