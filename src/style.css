@@ -88,6 +88,10 @@ button:focus-visible {
   color: rgb(144, 86, 0) !important;
 }
 
+.arco-slider-mark {
+  width: 100px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

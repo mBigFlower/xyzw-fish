@@ -47,9 +47,13 @@
 
     <a-form-item>
       <a-button type="primary" @click="onCalcClick">计算</a-button>
-      <a-button @click="onResetClick" style="margin-left: 10px">重置</a-button>
+      <a-button v-if="isCalced" type="outline" style="margin-left: 10px" @click="onDetailClick">详情</a-button>
+      <a-button style="margin-left: 10px" @click="onResetClick">重置</a-button>
+      <span v-if="isCalced" class="simple-result">{{ statusResult?.[4].label?.slice(1) }} : {{ statusResult?.[4].value
+        }}</span>
     </a-form-item>
   </a-form>
+  <ResultDetect ref="resultDetectRef" v-model:currentJinZhuan="form.jinZhuan" v-model:currentBuHuo="form.buHuo" />
   <a-modal v-model:visible="visible" width="auto" @ok="handleOk" @cancel="handleCancel">
     <template #title>
       计算结果
@@ -62,10 +66,12 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
+import ResultDetect from './CheckResultDetect.vue'
 import { calc } from '../xyzw_fish.js'
 
 const formRef = ref(null)
+const resultDetectRef = ref(null)
 
 //#region 信息填写
 const baseParams = {
@@ -75,7 +81,7 @@ const baseParams = {
   yanGuan: 21,
   baoXiang: 100000,
   goldProp: undefined,
-  normalProp: undefined
+  normalProp: 0
 }
 const form = reactive({ ...baseParams })
 
@@ -84,6 +90,9 @@ function initInfos() {
   const urlObj = new URL(location.href);
   // 使用 URLSearchParams 获取查询参数
   const params = new URLSearchParams(urlObj.search);
+  if (!params?.size) {
+    return console.warn('no url params')
+  }
   // 创建一个对象来存储参数和值
   const result = {};
   // 遍历所有参数并存储到结果对象中
@@ -97,8 +106,7 @@ initInfos();
 
 function onCalcClick() {
   formRef.value.validate();
-  if (!form.goldProp || !form.normalProp) return;
-  visible.value = true
+  if (form.goldProp === undefined || form.normalProp === undefined) return;
   const res = calc(form)
   console.log('onCalcClick', res);
 
@@ -106,8 +114,18 @@ function onCalcClick() {
   statusResult.value = [...res.statusResult]
 }
 
+const isCalced = computed(() => {
+  return infoResult.value.length > 0 && statusResult.value.length > 0
+})
+
+function onDetailClick() {
+  visible.value = true
+}
+
 function onResetClick() {
-  Object.assign(form, baseParams)
+  initInfos();
+  infoResult.value = []
+  statusResult.value = []
 }
 //#endregion
 
@@ -140,6 +158,12 @@ function handleCancel() {
 
 .status-result {
   margin-left: 20px
+}
+
+.simple-result {
+  margin-left: 10px;
+  color: red;
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {

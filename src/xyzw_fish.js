@@ -1,5 +1,5 @@
 
-const BuHuoInfo = [
+export const BuHuoInfo = [
   {
     "level": 25,
     "prop": 4
@@ -81,7 +81,7 @@ const BuHuoInfo = [
     "prop": 24
   }
 ]
-const YanGuanInfo = [
+export const YanGuanInfo = [
   {
     "level": 3,
     "prop": 1
@@ -163,7 +163,7 @@ const YanGuanInfo = [
     "prop": 1
   }
 ]
-const JinZhuanInfo = [
+export const JinZhuanInfo = [
   {
     "level": 10000,
     "prop": 3
@@ -245,7 +245,7 @@ const JinZhuanInfo = [
     "prop": 12
   }
 ]
-const ZhaoMuInfo = [
+export const ZhaoMuInfo = [
   {
     "level": 80,
     "prop": 8
@@ -327,7 +327,7 @@ const ZhaoMuInfo = [
     "prop": 32
   }
 ]
-const BaoXiangInfo = [
+export const BaoXiangInfo = [
   {
     "level": 2000,
     "prop": 4
@@ -518,7 +518,7 @@ export function calc(nowInfo = NowInfo) {
   pushStatusResult('距拿金鱼还差金道具', (250 - nowInfo.goldProp))
   pushStatusResult('25% 的转换率，还需普通道具', (250 - nowInfo.goldProp) * 4)
   pushStatusResult('盐罐还可以获得普通道具', nowYanGuanInfo.infoLeft.length)
-  if (nowInfo.normalProp) pushStatusResult('未兑换的普通道具', nowInfo.normalProp)
+  pushStatusResult('未兑换的普通道具', nowInfo.normalProp)
   pushStatusResult('故还差普通道具', (250 - nowInfo.goldProp) * 4 - nowYanGuanInfo.infoLeft.length - nowInfo.normalProp)
   checkBuHuoInfo(nowBuHuoInfo)
   checkJinZhuanInfo(nowJinZhuanInfo)
@@ -527,6 +527,6 @@ export function calc(nowInfo = NowInfo) {
 
   return {
     infoResult,
-    statusResult
+    statusResult,
   }
 }
