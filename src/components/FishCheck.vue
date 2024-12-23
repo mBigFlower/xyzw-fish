@@ -56,7 +56,7 @@
   <ResultDetect ref="resultDetectRef" v-model:currentJinZhuan="form.jinZhuan" v-model:currentBuHuo="form.buHuo" />
   <a-modal v-model:visible="visible" width="auto" @ok="handleOk" @cancel="handleCancel">
     <template #title>
-      计算结果
+      详情
     </template>
     <div class="result-layout">
       <a-descriptions :data="infoResult" :column="1" bordered />
