@@ -510,7 +510,7 @@ export function calc(nowInfo = NowInfo) {
   pushInfoResult('------------------', '')
 
   const sum = nowBuHuoInfo.propsGet + nowYanGuanInfo.propsGet + nowJinZhuanInfo.propsGet + nowZhaoMuInfo.propsGet + nowBaoXiangInfo.propsGet
-  pushInfoResult('当前金道具转换概率', (nowInfo.goldProp * 100 / sum).toFixed(2) + '%')
+  pushInfoResult('当前金道具转换概率', (nowInfo.goldProp * 100 / (sum - normalProp)).toFixed(2) + '%')
   pushInfoResult('已获得普通道具', sum)
   pushInfoResult('剩余可获得普通道具', (1050 - sum))
   pushInfoResult('已获得金道具', nowInfo.goldProp)
